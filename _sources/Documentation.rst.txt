@@ -1,0 +1,32 @@
+.. P-RNNs for Emotion Recognition documentation master file, created by
+   sphinx-quickstart on Sat Aug  4 16:08:05 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to P-RNNs for Emotion Recognition's documentation!
+==========================================================
+
+Here you can find a full documentation of the Code used in the Master Thesis *Transfer Learning for 
+Emotion Recognition on Multimodal Data from Children with Autistic Spectrum Condition (ASC)*. 
+First the complete Master Thesis is attached to provide theoretical insights and results on the two 
+data sets ASC-Inclusion and DE-ENGIMA. Afterwards a Quick Start Chapter gives some insight on how to use 
+the provided Code either with the data provided by University of Augsburg or with a simple toy data 
+example. Finally a full documentation of the Code is provided.
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents:
+   
+   chapters/thesis
+   chapters/quick_start
+   chapters/data_preparation
+
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

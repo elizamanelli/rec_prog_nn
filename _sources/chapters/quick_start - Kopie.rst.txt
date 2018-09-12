@@ -1,0 +1,296 @@
+Quick Start
+**************************
+
+Set Up and Installation
+==========================
+
+This project runs on Python 3.6. Please make sure you have the correct python version set up as your 
+interpreter. It is advisable to use a specific environment for this project so integrity and versions are 
+maintained correctly. The following packages are used in the developement of this project and are needed 
+to execute it.
+
+* numpy version: 1.15.0
+* scikit learn version: 0.19.1
+* pandas version: 0.23.3
+* matplotlib version: 2.2.2
+* scipy  version 1.1.0
+* tensorflow version 1.8.0
+* alternatively tensorflow-gpu version 1.4.1
+
+
+Evaluator Example using Original Data
+=======================================
+
+Here all steps to use the Evaluator structures will be explained. The Code used here is as well included in 
+the project in the file: *EvaluatorExample.py*.
+This code runs an evaluation on ASC-Inclusion data as it is provided by the University of Augsburg. 
+
+It will **NOT** work on your home PC! If you are looking for a usable example on your private 
+PC please check out the next chapter!
+
+First the data loader, data iterator and evaluator are imported. Then the evaluator is initalized. 
+In this example we use a SimpleEvaluator ASC-Inclusion data and eGeMAPS features. Those specifications
+can easily be changed.
+
+.. code-block:: python
+   :linenos:
+   
+   from Data_Preparation.Data_Loader import asc_loader
+   from Evaluators.SimpleNetEvaluator import simpleEvaluator
+   from Data_Preparation.Data_Iterator import data_iterator
+   
+   evaluator = simpleEvaluator(dataloader=asc_loader(), dataiterator=data_iterator(), features='egemaps')
+   
+Now that the evaluator is ready, any of it's functions can be invoked. Those can be found in the Code 
+Documentation provided.
+
+For example a full grid hyperparameter search can be triggered using:
+
+.. code-block:: python
+   :lineno-start: 6
+   
+   evaluator.test_hyperparameters(rootname='/data/elli/tuning', configurations=None, numSteps= 300)
+
+Since here no specific set of hyperparameters was specified, all parameters mentioned in the thesis are
+tested. Results are saved in '/data/elli/tuning' and can be checked using tensorboard. 
+
+To only test a few known configurations those first need to be specified. They can then be tested using 
+evaluator.evaluate_hyperparameters.
+
+.. code-block:: python
+   :lineno-start: 8
+   
+   config1 = {'topology': [5,3,2], 'dropout': 0.8, 'target': 'val', 'numSteps': 120, 'learningRate': 0.001}
+   config2 = {'topology': [5,3,2], 'dropout': 1, 'target': 'val', 'numSteps': 120, 'learningRate': 0.001}
+
+   evaluator.evaluate_hyperparameters(rootname='/data/elli/tuning', configurations=[config1, config2])
+
+Here we test two configurations for binary valence recognition with slightly different hyperparameters.
+For each configuration five seven-fold cross validations are run and in the end the best configuration
+is printed.   
+   
+If we want to perform a cross culture evaluation for the hyperparameter configuration config1, we can do 
+so by calling:
+
+.. code-block:: python
+   :lineno-start: 13
+   
+   evaluator.evaluate_cross_culture(rootname='/data/elli/random', configuration=config1, numEval=5)
+   
+Finally we can create the Receiver Operator Curves (ROC) as presented in the thesis as follows.
+
+.. code-block:: python
+   :lineno-start: 15
+   
+   evaluator.create_roc_cross(logPath='CrossCultureEgemaps.csv', rootname='/data/elli/random', 
+   savePath='/data/elli/roc')
+   
+To do so we need a log file that provides the best hyperparameters. This file is called CrossCultureEgemaps.csv and is 
+included in the Code provided. The created graphs are saved in savePath.
+
+All other Evaluators work in a simular way and can be easily constructed. Please keep in mind to use the 
+SequenceIterator with the RNNEvaluator. All methods available can be found in the full code documentation.
+	
+   
+Usage Example Using Toy Data
+==============================
+
+In this section the use of the constructed Progressive Neural Network and Recurrent Progressive Neural 
+Network will be explained. Here the dataloader is not used, instead random toy data is created to show 
+basic usage styles. 
+
+Progressive Neural Network Example
+-------------------------------------
+
+The complete code for this example is included in the file: *ProgNetExample.py*.
+
+First tensorflow and numpy are imported, which are needed to create the toy data and specify the 
+activation functions. The ProgressiveNeuralNetwork and the data_iterator are imported as well.
+
+.. code-block:: python
+   :linenos:
+   
+   import numpy as np
+   import tensorflow as tf
+   from Prog_net.progressivenet import ProgressiveNeuralNetwork
+   from Data_Preparation.Data_Iterator import data_iterator
+
+Then the toy data is constructed. Here we create an example for classification therefore 
+one hot encoded targets are created. 
+
+.. code-block:: python
+   :lineno-start: 7
+   
+   inputSize = 128
+   fakeInputs1 = np.float64(np.random.rand(4000, inputSize))
+   fakeTargets1 = np.eye(9)[np.random.randint(0, 9, 4000)]
+   fakeTargets2 = np.eye(7)[np.random.randint(0, 7, 4000)]
+   
+Next the topologies of the columns and the activation functions are specified.
+
+.. code-block:: python
+   :lineno-start: 11
+   
+   topology1 = [100, 64, 25, 9]
+   topology2 = [68, 44, 19, 7]
+   activations = [tf.nn.relu, tf.nn.relu, tf.nn.relu, tf.nn.relu]
+
+The iterators for both toy data sets with a batchsize of 50 are created.
+
+.. code-block:: python
+   :lineno-start: 15
+   
+   it = data_iterator()
+   x = it.iter_data_epoch(fakeInputs1, fakeTargets1, 50)
+   y = it.iter_data_epoch(fakeInputs1, fakeTargets2, 50)
+
+Then the ProgressiveNeuralNetwork is constructed and initialized. 
+
+.. code-block:: python
+   :lineno-start: 20
+   
+   progNet = ProgressiveNeuralNetwork(inputSize=inputSize, numLayers=4)
+   initCol = progNet.addColumn(topology1, activations, [], logdir='/data/elli/random/firstcol', 
+				regression=False)
+   extCol = progNet.addColumn(topology2, activations, [initCol], logdir='data/elli/random/secondcol',
+				regression=False)
+
+Next we create an optimizer for the initial column and start the training of the first column.
+It is trained for 50 epochs and after each epoch the current training accuracies are 
+printed. Hyperparameters like learning rate and dropout keep probability can easily be changed.
+
+.. code-block:: python
+   :lineno-start: 24
+   
+   initCol.create_optimizer()
+
+   for epoch in range(50):
+       initCol.train(next(x), learning_rate=0.004, dropout_keep_prob=0.8)
+
+       trainAccuracy = initCol.evaluate(next(x), test=False)
+
+       msg = "InitialColumn Epoch = %d, train accuracy = %.2f%%"
+       values = (epoch + 1, 100. * trainAccuracy)
+       print(msg % values)
+
+After the completion of the first column training we create an optimizer for the second column. 
+The second column is trained just as the first one. Finally the Network is saved.
+
+.. code-block:: python
+   :lineno-start: 35
+   
+   extCol.create_optimizer()
+
+   for epoch in range(50):
+       extCol.train(next(y), learning_rate=0.004, dropout_keep_prob=0.8)
+
+       trainAccuracy = extCol.evaluate(next(y), test=False)
+
+       msg = "ExtendedColumn Epoch = %d, train accuracy = %.2f%%"
+       values = (epoch + 1, 100. * trainAccuracy)
+       print(msg % values)
+
+   progNet.writeToFile('/data/elli/random/savednet', epoch)
+   
+One can easily adapt this setting to fit any classification data set. Additional functions for the 
+ProgressiveNeuralNetwork can be found in the Full Code Documentation. In order to adapt the network 
+to a regression task only the regression flag needs to be set to True and the Target data needs to be 
+changed accordingly. Please remember to pass dataset='deenigma' to the create optimizer function as well.
+
+
+Recurrent Progressive Neural Network Example
+-------------------------------------------------
+
+Since the Recurrent Progressive Neural Network is an extension of the other one the example code 
+is very simular. Here only the changes will be pointed out here. The full code for this example is 
+included in the file: *RNNProgNetExample.py*.
+
+First the import statements differ slightly since the RNNProgressiveNet and the sequence_iterator need 
+to be imported. Additionally we need to import rnn to specify the celltype to use in this network.
+
+.. code-block:: python
+   :linenos:
+   
+   from Prog_net.rnnprogressivenet import RNNProgressiveNet
+   from Data_Preparation.Data_Iterator import sequence_iterator
+   from tensorflow.contrib import rnn
+
+The biggest difference is in the toy data. The input data now has three dimension [numSamples, 
+paddedLength, inputSize]. Targets are now integer class labels and are as well padded to fit the 
+maximum length. To ease computation time and account for different lengths in the data the length 
+of each sample is given in the length list.
+
+.. code-block:: python
+   :lineno-start: 7
+   
+   inputSize = 23
+   fakeInputs1 = np.float64(np.random.rand(2000, 200, inputSize))
+   fakeTargets1 = np.reshape(np.repeat(np.random.randint(0, 9, 2000), 200, axis = 0), (2000, 200))
+   fakeLengths1 = np.random.randint(100, 200, 2000)
+   fakeTargets2 = np.reshape(np.repeat(np.random.randint(0, 7, 2000), 200, axis = 0), (2000, 200))
+   fakeLengths2 = np.random.randint(100, 200, 2000)
+   
+In addition to the previous specification settings like topology and activation function one must now 
+give a celltype for the recurrent cell as well.
+
+.. code-block:: python
+   :lineno-start: 17
+   
+   celltype = rnn.LSTMCell
+   
+Since now we are handling time continuous data we initialize the sequence iterator instead of the normal
+data iterator. This contains the length lists as an additional input parameter.
+
+.. code-block:: python
+   :lineno-start: 19
+   
+   it = sequence_iterator()
+   x = it.iter_data_epoch(fakeInputs1, fakeTargets1, 50, fakeLengths1)
+   y = it.iter_data_epoch(fakeInputs1, fakeTargets2, 50, fakeLengths2)
+   
+Now we can initialize the Progressive Neural Network almost as we did before. The only difference is
+that we now provide the celltype and the initial batchsize.
+
+.. code-block:: python
+   :lineno-start: 24
+   
+   progNet = RNNProgressiveNet(inputSize=inputSize, numLayers=3)
+   initCol = progNet.addColumn(topology1, activations, celltype,  [], logdir='/data/elli/random/firstcol',
+                               batchnum=50, regression=False)
+   extCol = progNet.addColumn(topology2, activations, celltype, [initCol], logdir='data/elli/random/secondcol',
+                               batchnum=50, regression=False)
+
+Now we can train and evaluate both columns just as with the simple ProgressiveNeuralNetwork. We only need 
+to index the accuracy output now since the evaluate function returns all three possible evaluation accuracies 
+(all, last and mean). For more information on this please refer to the Master Thesis.
+
+.. code-block:: python
+   :lineno-start: 30
+   
+   initCol.create_optimizer()
+
+   for epoch in range(50):
+       initCol.train(next(x), learning_rate=0.004, dropout_keep_prob=0.8)
+
+       trainAccuracy = initCol.evaluate(next(x))
+
+       msg = "InitialColumn Epoch = %d, train accuracy = %.2f%%"
+       values = (epoch + 1, 100. * trainAccuracy[2])
+       print(msg % values)
+
+   extCol.create_optimizer()
+
+   for epoch in range(50):
+       extCol.train(next(y), learning_rate=0.004, dropout_keep_prob=0.8)
+
+       trainAccuracy = extCol.evaluate(next(y))
+
+       msg = "ExtendedColumn Epoch = %d, train accuracy = %.2f%%"
+       values = (epoch + 1, 100. * trainAccuracy[2])
+       print(msg % values)
+
+   progNet.writeToFile('/data/elli/random/savednet', epoch)
+   
+All adaptions and extensions are kept as close as possible to the ProgressiveNeuralNetwork. Please refer to the 
+Full Code Documentation for more information.
+   

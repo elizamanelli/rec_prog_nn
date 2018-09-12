@@ -1,0 +1,74 @@
+Full Code Documentation
+**************************
+
+This section provides a full documentation for the code used in this project. Describing all classes and 
+functions. For a quick start on how to use the code please refer to the section 'Quick Start', which contains 
+working examples on how to start a progressive neural network evaluation.
+
+.. automodule:: Data_Preparation
+.. automodule:: Prog_net
+.. automodule:: Evaluators
+
+
+Data Preparation
+=========================
+
+The data preparation for this project contains two data loaders and two data iterators. 
+Data loaders are specific for their dataset and only applicable for the ASC-Inclusion or DE-ENIGMA 
+data set as it is provided by the university of Augsburg. Data iterators are different for time continuous
+data and non time continuous data.
+
+
+Data Iterators
+--------------------------
+
+Data Iterator
+++++++++++++++++++++++++++
+
+.. autoclass:: Data_Preparation.Data_Iterator.data_iterator
+   :members: __init__, iter_data_epoch, iter_data_batch
+   
+Sequence Iterator
+++++++++++++++++++++++++++
+   
+.. autoclass:: Data_Preparation.Data_Iterator.sequence_iterator
+   :members: __init__, iter_data_epoch, iter_data_batch
+   
+Progressive Neural Networks
+================================
+
+Two types of Progressive Neural Networks were created for this project. One is a simple Progressive Neural Network (P-NN) the other 
+a Recurrent Progressive Neural Network (R-PNN). Those are called in the Evaluator classes or can be used 
+as they are for more customized experiments.
+
+Simple Progressive Neural Network
+------------------------------------
+
+Prog Net
++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.progressivenet.ProgressiveNeuralNetwork
+   :members: __init__, addColumn, loadFromFile, writeToFile, limit_mem
+   
+Column
+++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.progressivenet.Column
+   :members: __init__, write_summary, create_summary_from_array, create_optimizer, create_optimizer_finetune, name, train, predict, evaluate, get_confusion_matrix
+   
+
+Recurrent Progressive Net
+--------------------------
+
+Prog Net
+++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.rnnprogressivenet.RNNProgressiveNet
+   :members: __init__, addColumn, loadFromFile, writeToFile, limit_mem
+   
+Column
+++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.rnnprogressivenet.Rnn_Column
+   :members: __init__, create_optimizer, train, write_summary, predict, predict_last, get_probabilities, evaluate, get_confusion_matrix
+   
