@@ -1,0 +1,121 @@
+Full Code Documentation
+**************************
+
+This section provides a full documentation for the code used in this project. Describing all classes and 
+functions. For a quick start on how to use the code please refer to the section 'Quick Start', which contains 
+working examples on how to start a progressive neural network evaluation.
+
+.. automodule:: Data_Preparation
+.. automodule:: Prog_net
+.. automodule:: Evaluators
+
+
+Data Preparation
+=========================
+
+The data preparation for this project contains two data loaders and two data iterators. 
+Data loaders are specific for their dataset and only applicable for the ASC-Inclusion or DE-ENIGMA 
+data set as it is provided by the university of Augsburg. Data iterators are different for time continuous
+data and non time continuous data.
+
+Data Loaders
+-------------------------
+
+ASC Inclusion Loader 
++++++++++++++++++++++++++
+
+.. autoclass:: Data_Preparation.Data_Loader.asc_loader
+   :members: __init__, emotion_to_numeric_9, emotion_to_valence_9, emotion_to_arousal_9, emotion_to_numeric_19, load_one_lld, load_one_functional, load_asc_data_one_language, shorten_lld, upsample, downsample, normalize, get_fold_asc_eh, get_fold, get_asc
+   
+DEENIGMA Loader
+++++++++++++++++++++++++++
+   
+.. autoclass:: Data_Preparation.Data_Loader.annotation_loader_deenigma
+   :members: __init__, load_new_snippets, normalize, normalize_func, shorten_lld, load_functionals, get_fold, load_llds, get_loso
+
+
+Data Iterators
+--------------------------
+
+Data Iterator
+++++++++++++++++++++++++++
+
+.. autoclass:: Data_Preparation.Data_Iterator.data_iterator
+   :members: __init__, iter_data_epoch, iter_data_batch
+   
+Sequence Iterator
+++++++++++++++++++++++++++
+   
+.. autoclass:: Data_Preparation.Data_Iterator.sequence_iterator
+   :members: __init__, iter_data_epoch, iter_data_batch
+   
+Progressive Neural Networks
+================================
+
+Two types of Progressive Neural Networks were created for this project. One is a simple Progressive Neural Network (P-NN) the other 
+a Recurrent Progressive Neural Network (R-PNN). Those are called in the Evaluator classes or can be used 
+as they are for more customized experiments.
+
+Simple Progressive Neural Network
+------------------------------------
+
+Prog Net
++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.progressivenet.ProgressiveNeuralNetwork
+   :members: __init__, addColumn, loadFromFile, writeToFile, limit_mem
+   
+Column
+++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.progressivenet.Column
+   :members: __init__, write_summary, create_summary_from_array, create_optimizer, create_optimizer_finetune, name, train, predict, evaluate, get_confusion_matrix
+   
+
+Recurrent Progressive Net
+--------------------------
+
+Prog Net
+++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.rnnprogressivenet.RNNProgressiveNet
+   :members: __init__, addColumn, loadFromFile, writeToFile, limit_mem
+   
+Column
+++++++++++++++++++++++++++
+
+.. autoclass:: Prog_net.rnnprogressivenet.Rnn_Column
+   :members: __init__, create_optimizer, train, write_summary, predict, predict_last, get_probabilities, evaluate, get_confusion_matrix
+   
+Evaluators
+================================
+
+Different Evaluators are constructed to ease hyperparameter tuning and evaluation of progressive neural networks.
+For the experiments with simple neural networks three different evaluators for simple nets, finetuning and 
+progressive networks were created. For recurrent progressive neural networks only one evaluator can be used for 
+simple network evaluation and the progressive network evaluation.
+
+Simple Network Evaluator
+------------------------------------
+
+.. autoclass:: Evaluators.SimpleNetEvaluator.simpleEvaluator
+   :members: __init__, cccPccRmse, test_hyperparameters, do_cross_validation, do_cross_culture_evaluation, cross_validate_emotion, evaluate_hyperparameters, evaluate_emotion, evaluate_cross_culture, read_simple_specs_from_file, create_roc_culture, create_roc_cross
+
+Fine Tuning Evaluator
+------------------------------------ 
+
+.. autoclass:: Evaluators.FineTuneEvaluator.fineTuningEvaluator
+   :members: __init__, read_tuning_specs_from_file, do_cross_validation, evaluate_hyperparameters
+ 
+Second Column Evaluator
+------------------------------------ 
+
+.. autoclass:: Evaluators.SecondColumnEvaluator.SecondColumnEvaluator
+   :members: __init__, read_tuning_specs_from_file, do_cross_validation, evaluate_hyperparameters
+   
+Recurrent Net Evaluator
+------------------------------------ 
+
+.. autoclass:: Evaluators.ProgNetEvaluator.RNNEvaluator
+   :members: __init__, cccPccRmse, test_hyperparameters, do_cross_validation, do_loso_validation, evaluate_hyperparameters, create_pretrained, evaluate_second_column, evaluate_crosstask_second_column
+ 

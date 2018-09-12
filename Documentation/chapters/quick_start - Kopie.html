@@ -1,0 +1,402 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quick Start &#8212; P-RNNs for Emotion Recognition 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../Documentation.html">P-RNNs for Emotion Recognition 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Documentation.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quick Start</a><ul>
+<li><a class="reference internal" href="#set-up-and-installation">Set Up and Installation</a></li>
+<li><a class="reference internal" href="#evaluator-example-using-original-data">Evaluator Example using Original Data</a></li>
+<li><a class="reference internal" href="#usage-example-using-toy-data">Usage Example Using Toy Data</a><ul>
+<li><a class="reference internal" href="#progressive-neural-network-example">Progressive Neural Network Example</a></li>
+<li><a class="reference internal" href="#recurrent-progressive-neural-network-example">Recurrent Progressive Neural Network Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chapters/quick_start - Kopie.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-up-and-installation">
+<h2>Set Up and Installation<a class="headerlink" href="#set-up-and-installation" title="Permalink to this headline">¶</a></h2>
+<p>This project runs on Python 3.6. Please make sure you have the correct python version set up as your
+interpreter. It is advisable to use a specific environment for this project so integrity and versions are
+maintained correctly. The following packages are used in the developement of this project and are needed
+to execute it.</p>
+<ul class="simple">
+<li>numpy version: 1.15.0</li>
+<li>scikit learn version: 0.19.1</li>
+<li>pandas version: 0.23.3</li>
+<li>matplotlib version: 2.2.2</li>
+<li>scipy  version 1.1.0</li>
+<li>tensorflow version 1.8.0</li>
+<li>alternatively tensorflow-gpu version 1.4.1</li>
+</ul>
+</div>
+<div class="section" id="evaluator-example-using-original-data">
+<h2>Evaluator Example using Original Data<a class="headerlink" href="#evaluator-example-using-original-data" title="Permalink to this headline">¶</a></h2>
+<p>Here all steps to use the Evaluator structures will be explained. The Code used here is as well included in
+the project in the file: <em>EvaluatorExample.py</em>.
+This code runs an evaluation on ASC-Inclusion data as it is provided by the University of Augsburg.</p>
+<p>It will <strong>NOT</strong> work on your home PC! If you are looking for a usable example on your private
+PC please check out the next chapter!</p>
+<p>First the data loader, data iterator and evaluator are imported. Then the evaluator is initalized.
+In this example we use a SimpleEvaluator ASC-Inclusion data and eGeMAPS features. Those specifications
+can easily be changed.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Data_Preparation.Data_Loader</span> <span class="kn">import</span> <span class="n">asc_loader</span>
+<span class="kn">from</span> <span class="nn">Evaluators.SimpleNetEvaluator</span> <span class="kn">import</span> <span class="n">simpleEvaluator</span>
+<span class="kn">from</span> <span class="nn">Data_Preparation.Data_Iterator</span> <span class="kn">import</span> <span class="n">data_iterator</span>
+
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">simpleEvaluator</span><span class="p">(</span><span class="n">dataloader</span><span class="o">=</span><span class="n">asc_loader</span><span class="p">(),</span> <span class="n">dataiterator</span><span class="o">=</span><span class="n">data_iterator</span><span class="p">(),</span> <span class="n">features</span><span class="o">=</span><span class="s1">&#39;egemaps&#39;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now that the evaluator is ready, any of it’s functions can be invoked. Those can be found in the Code
+Documentation provided.</p>
+<p>For example a full grid hyperparameter search can be triggered using:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">evaluator</span><span class="o">.</span><span class="n">test_hyperparameters</span><span class="p">(</span><span class="n">rootname</span><span class="o">=</span><span class="s1">&#39;/data/elli/tuning&#39;</span><span class="p">,</span> <span class="n">configurations</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">numSteps</span><span class="o">=</span> <span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Since here no specific set of hyperparameters was specified, all parameters mentioned in the thesis are
+tested. Results are saved in ‘/data/elli/tuning’ and can be checked using tensorboard.</p>
+<p>To only test a few known configurations those first need to be specified. They can then be tested using
+evaluator.evaluate_hyperparameters.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">config1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;topology&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;dropout&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;numSteps&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="s1">&#39;learningRate&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">}</span>
+<span class="n">config2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;topology&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;dropout&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;numSteps&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="s1">&#39;learningRate&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">}</span>
+
+<span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate_hyperparameters</span><span class="p">(</span><span class="n">rootname</span><span class="o">=</span><span class="s1">&#39;/data/elli/tuning&#39;</span><span class="p">,</span> <span class="n">configurations</span><span class="o">=</span><span class="p">[</span><span class="n">config1</span><span class="p">,</span> <span class="n">config2</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+<p>Here we test two configurations for binary valence recognition with slightly different hyperparameters.
+For each configuration five seven-fold cross validations are run and in the end the best configuration
+is printed.</p>
+<p>If we want to perform a cross culture evaluation for the hyperparameter configuration config1, we can do
+so by calling:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate_cross_culture</span><span class="p">(</span><span class="n">rootname</span><span class="o">=</span><span class="s1">&#39;/data/elli/random&#39;</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="n">config1</span><span class="p">,</span> <span class="n">numEval</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Finally we can create the Receiver Operator Curves (ROC) as presented in the thesis as follows.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">evaluator</span><span class="o">.</span><span class="n">create_roc_cross</span><span class="p">(</span><span class="n">logPath</span><span class="o">=</span><span class="s1">&#39;CrossCultureEgemaps.csv&#39;</span><span class="p">,</span> <span class="n">rootname</span><span class="o">=</span><span class="s1">&#39;/data/elli/random&#39;</span><span class="p">,</span>
+<span class="n">savePath</span><span class="o">=</span><span class="s1">&#39;/data/elli/roc&#39;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>To do so we need a log file that provides the best hyperparameters. This file is called CrossCultureEgemaps.csv and is
+included in the Code provided. The created graphs are saved in savePath.</p>
+<p>All other Evaluators work in a simular way and can be easily constructed. Please keep in mind to use the
+SequenceIterator with the RNNEvaluator. All methods available can be found in the full code documentation.</p>
+</div>
+<div class="section" id="usage-example-using-toy-data">
+<h2>Usage Example Using Toy Data<a class="headerlink" href="#usage-example-using-toy-data" title="Permalink to this headline">¶</a></h2>
+<p>In this section the use of the constructed Progressive Neural Network and Recurrent Progressive Neural
+Network will be explained. Here the dataloader is not used, instead random toy data is created to show
+basic usage styles.</p>
+<div class="section" id="progressive-neural-network-example">
+<h3>Progressive Neural Network Example<a class="headerlink" href="#progressive-neural-network-example" title="Permalink to this headline">¶</a></h3>
+<p>The complete code for this example is included in the file: <em>ProgNetExample.py</em>.</p>
+<p>First tensorflow and numpy are imported, which are needed to create the toy data and specify the
+activation functions. The ProgressiveNeuralNetwork and the data_iterator are imported as well.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">Prog_net.progressivenet</span> <span class="kn">import</span> <span class="n">ProgressiveNeuralNetwork</span>
+<span class="kn">from</span> <span class="nn">Data_Preparation.Data_Iterator</span> <span class="kn">import</span> <span class="n">data_iterator</span>
+</pre></div>
+</td></tr></table></div>
+<p>Then the toy data is constructed. Here we create an example for classification therefore
+one hot encoded targets are created.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">inputSize</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">fakeInputs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="n">inputSize</span><span class="p">))</span>
+<span class="n">fakeTargets1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">9</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">4000</span><span class="p">)]</span>
+<span class="n">fakeTargets2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">7</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4000</span><span class="p">)]</span>
+</pre></div>
+</td></tr></table></div>
+<p>Next the topologies of the columns and the activation functions are specified.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">topology1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">topology2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">activations</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+<p>The iterators for both toy data sets with a batchsize of 50 are created.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">it</span> <span class="o">=</span> <span class="n">data_iterator</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">iter_data_epoch</span><span class="p">(</span><span class="n">fakeInputs1</span><span class="p">,</span> <span class="n">fakeTargets1</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">iter_data_epoch</span><span class="p">(</span><span class="n">fakeInputs1</span><span class="p">,</span> <span class="n">fakeTargets2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Then the ProgressiveNeuralNetwork is constructed and initialized.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">progNet</span> <span class="o">=</span> <span class="n">ProgressiveNeuralNetwork</span><span class="p">(</span><span class="n">inputSize</span><span class="o">=</span><span class="n">inputSize</span><span class="p">,</span> <span class="n">numLayers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">initCol</span> <span class="o">=</span> <span class="n">progNet</span><span class="o">.</span><span class="n">addColumn</span><span class="p">(</span><span class="n">topology1</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="p">[],</span> <span class="n">logdir</span><span class="o">=</span><span class="s1">&#39;/data/elli/random/firstcol&#39;</span><span class="p">,</span>
+                             <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">extCol</span> <span class="o">=</span> <span class="n">progNet</span><span class="o">.</span><span class="n">addColumn</span><span class="p">(</span><span class="n">topology2</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="p">[</span><span class="n">initCol</span><span class="p">],</span> <span class="n">logdir</span><span class="o">=</span><span class="s1">&#39;data/elli/random/secondcol&#39;</span><span class="p">,</span>
+                             <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Next we create an optimizer for the initial column and start the training of the first column.
+It is trained for 50 epochs and after each epoch the current training accuracies are
+printed. Hyperparameters like learning rate and dropout keep probability can easily be changed.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">initCol</span><span class="o">.</span><span class="n">create_optimizer</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">initCol</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span> <span class="n">dropout_keep_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="n">trainAccuracy</span> <span class="o">=</span> <span class="n">initCol</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">test</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;InitialColumn Epoch = </span><span class="si">%d</span><span class="s2">, train accuracy = </span><span class="si">%.2f%%</span><span class="s2">&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">trainAccuracy</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">msg</span> <span class="o">%</span> <span class="n">values</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>After the completion of the first column training we create an optimizer for the second column.
+The second column is trained just as the first one. Finally the Network is saved.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">extCol</span><span class="o">.</span><span class="n">create_optimizer</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">extCol</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span> <span class="n">dropout_keep_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="n">trainAccuracy</span> <span class="o">=</span> <span class="n">extCol</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">test</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;ExtendedColumn Epoch = </span><span class="si">%d</span><span class="s2">, train accuracy = </span><span class="si">%.2f%%</span><span class="s2">&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">trainAccuracy</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">msg</span> <span class="o">%</span> <span class="n">values</span><span class="p">)</span>
+
+<span class="n">progNet</span><span class="o">.</span><span class="n">writeToFile</span><span class="p">(</span><span class="s1">&#39;/data/elli/random/savednet&#39;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>One can easily adapt this setting to fit any classification data set. Additional functions for the
+ProgressiveNeuralNetwork can be found in the Full Code Documentation. In order to adapt the network
+to a regression task only the regression flag needs to be set to True and the Target data needs to be
+changed accordingly. Please remember to pass dataset=’deenigma’ to the create optimizer function as well.</p>
+</div>
+<div class="section" id="recurrent-progressive-neural-network-example">
+<h3>Recurrent Progressive Neural Network Example<a class="headerlink" href="#recurrent-progressive-neural-network-example" title="Permalink to this headline">¶</a></h3>
+<p>Since the Recurrent Progressive Neural Network is an extension of the other one the example code
+is very simular. Here only the changes will be pointed out here. The full code for this example is
+included in the file: <em>RNNProgNetExample.py</em>.</p>
+<p>First the import statements differ slightly since the RNNProgressiveNet and the sequence_iterator need
+to be imported. Additionally we need to import rnn to specify the celltype to use in this network.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Prog_net.rnnprogressivenet</span> <span class="kn">import</span> <span class="n">RNNProgressiveNet</span>
+<span class="kn">from</span> <span class="nn">Data_Preparation.Data_Iterator</span> <span class="kn">import</span> <span class="n">sequence_iterator</span>
+<span class="kn">from</span> <span class="nn">tensorflow.contrib</span> <span class="kn">import</span> <span class="n">rnn</span>
+</pre></div>
+</td></tr></table></div>
+<p>The biggest difference is in the toy data. The input data now has three dimension [numSamples,
+paddedLength, inputSize]. Targets are now integer class labels and are as well padded to fit the
+maximum length. To ease computation time and account for different lengths in the data the length
+of each sample is given in the length list.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">inputSize</span> <span class="o">=</span> <span class="mi">23</span>
+<span class="n">fakeInputs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">inputSize</span><span class="p">))</span>
+<span class="n">fakeTargets1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span> <span class="mi">200</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">fakeLengths1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">fakeTargets2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span> <span class="mi">200</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">fakeLengths2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>In addition to the previous specification settings like topology and activation function one must now
+give a celltype for the recurrent cell as well.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">celltype</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">LSTMCell</span>
+</pre></div>
+</td></tr></table></div>
+<p>Since now we are handling time continuous data we initialize the sequence iterator instead of the normal
+data iterator. This contains the length lists as an additional input parameter.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">it</span> <span class="o">=</span> <span class="n">sequence_iterator</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">iter_data_epoch</span><span class="p">(</span><span class="n">fakeInputs1</span><span class="p">,</span> <span class="n">fakeTargets1</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">fakeLengths1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">iter_data_epoch</span><span class="p">(</span><span class="n">fakeInputs1</span><span class="p">,</span> <span class="n">fakeTargets2</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">fakeLengths2</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now we can initialize the Progressive Neural Network almost as we did before. The only difference is
+that we now provide the celltype and the initial batchsize.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">progNet</span> <span class="o">=</span> <span class="n">RNNProgressiveNet</span><span class="p">(</span><span class="n">inputSize</span><span class="o">=</span><span class="n">inputSize</span><span class="p">,</span> <span class="n">numLayers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">initCol</span> <span class="o">=</span> <span class="n">progNet</span><span class="o">.</span><span class="n">addColumn</span><span class="p">(</span><span class="n">topology1</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="n">celltype</span><span class="p">,</span>  <span class="p">[],</span> <span class="n">logdir</span><span class="o">=</span><span class="s1">&#39;/data/elli/random/firstcol&#39;</span><span class="p">,</span>
+                            <span class="n">batchnum</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">extCol</span> <span class="o">=</span> <span class="n">progNet</span><span class="o">.</span><span class="n">addColumn</span><span class="p">(</span><span class="n">topology2</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="n">celltype</span><span class="p">,</span> <span class="p">[</span><span class="n">initCol</span><span class="p">],</span> <span class="n">logdir</span><span class="o">=</span><span class="s1">&#39;data/elli/random/secondcol&#39;</span><span class="p">,</span>
+                            <span class="n">batchnum</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now we can train and evaluate both columns just as with the simple ProgressiveNeuralNetwork. We only need
+to index the accuracy output now since the evaluate function returns all three possible evaluation accuracies
+(all, last and mean). For more information on this please refer to the Master Thesis.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">initCol</span><span class="o">.</span><span class="n">create_optimizer</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">initCol</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span> <span class="n">dropout_keep_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="n">trainAccuracy</span> <span class="o">=</span> <span class="n">initCol</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;InitialColumn Epoch = </span><span class="si">%d</span><span class="s2">, train accuracy = </span><span class="si">%.2f%%</span><span class="s2">&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">trainAccuracy</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">msg</span> <span class="o">%</span> <span class="n">values</span><span class="p">)</span>
+
+<span class="n">extCol</span><span class="o">.</span><span class="n">create_optimizer</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">extCol</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span> <span class="n">dropout_keep_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="n">trainAccuracy</span> <span class="o">=</span> <span class="n">extCol</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;ExtendedColumn Epoch = </span><span class="si">%d</span><span class="s2">, train accuracy = </span><span class="si">%.2f%%</span><span class="s2">&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">trainAccuracy</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">msg</span> <span class="o">%</span> <span class="n">values</span><span class="p">)</span>
+
+<span class="n">progNet</span><span class="o">.</span><span class="n">writeToFile</span><span class="p">(</span><span class="s1">&#39;/data/elli/random/savednet&#39;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>All adaptions and extensions are kept as close as possible to the ProgressiveNeuralNetwork. Please refer to the
+Full Code Documentation for more information.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../Documentation.html">P-RNNs for Emotion Recognition 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Elisabeth Wittmann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>

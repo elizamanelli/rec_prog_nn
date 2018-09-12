@@ -1,0 +1,2051 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Full Code Documentation &#8212; P-RNNs for Emotion Recognition 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../Documentation.html">P-RNNs for Emotion Recognition 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Documentation.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Full Code Documentation</a><ul>
+<li><a class="reference internal" href="#data-preparation">Data Preparation</a><ul>
+<li><a class="reference internal" href="#data-loaders">Data Loaders</a><ul>
+<li><a class="reference internal" href="#asc-inclusion-loader">ASC Inclusion Loader</a></li>
+<li><a class="reference internal" href="#deenigma-loader">DEENIGMA Loader</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-iterators">Data Iterators</a><ul>
+<li><a class="reference internal" href="#data-iterator">Data Iterator</a></li>
+<li><a class="reference internal" href="#sequence-iterator">Sequence Iterator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#progressive-neural-networks">Progressive Neural Networks</a><ul>
+<li><a class="reference internal" href="#simple-progressive-neural-network">Simple Progressive Neural Network</a><ul>
+<li><a class="reference internal" href="#prog-net">Prog Net</a></li>
+<li><a class="reference internal" href="#column">Column</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recurrent-progressive-net">Recurrent Progressive Net</a><ul>
+<li><a class="reference internal" href="#id1">Prog Net</a></li>
+<li><a class="reference internal" href="#id2">Column</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluators">Evaluators</a><ul>
+<li><a class="reference internal" href="#simple-network-evaluator">Simple Network Evaluator</a></li>
+<li><a class="reference internal" href="#fine-tuning-evaluator">Fine Tuning Evaluator</a></li>
+<li><a class="reference internal" href="#second-column-evaluator">Second Column Evaluator</a></li>
+<li><a class="reference internal" href="#recurrent-net-evaluator">Recurrent Net Evaluator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chapters/data_preparation - Kopie.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="full-code-documentation">
+<h1>Full Code Documentation<a class="headerlink" href="#full-code-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This section provides a full documentation for the code used in this project. Describing all classes and
+functions. For a quick start on how to use the code please refer to the section ‘Quick Start’, which contains
+working examples on how to start a progressive neural network evaluation.</p>
+<span class="target" id="module-Data_Preparation"></span><span class="target" id="module-Prog_net"></span><span class="target" id="module-Evaluators"></span><div class="section" id="data-preparation">
+<h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this headline">¶</a></h2>
+<p>The data preparation for this project contains two data loaders and two data iterators.
+Data loaders are specific for their dataset and only applicable for the ASC-Inclusion or DE-ENIGMA
+data set as it is provided by the university of Augsburg. Data iterators are different for time continuous
+data and non time continuous data.</p>
+<div class="section" id="data-loaders">
+<h3>Data Loaders<a class="headerlink" href="#data-loaders" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="asc-inclusion-loader">
+<h4>ASC Inclusion Loader<a class="headerlink" href="#asc-inclusion-loader" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Data_Preparation.Data_Loader.asc_loader">
+<em class="property">class </em><code class="descclassname">Data_Preparation.Data_Loader.</code><code class="descname">asc_loader</code><span class="sig-paren">(</span><em>root_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class loads ASC Inclusion data into memory and creates batches to be delivered. Applicable for Englisch,
+Hebrew  and Swedisch Data.</p>
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>root_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>root_path</strong> – Rootpath specified for this session. Where to find the data.</td>
+</tr>
+</tbody>
+</table>
+<p>Initializing the data loader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.downsample">
+<code class="descname">downsample</code><span class="sig-paren">(</span><em>train_data</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.downsample" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>train_data</strong> – The data to be downsampled to equal classes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">train_data: the same data, just downsampled</td>
+</tr>
+</tbody>
+</table>
+<p>Downsampling routine for a dataset. Samples from the bigger group are selected and
+neglected randomly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.emotion_to_arousal_9">
+<code class="descname">emotion_to_arousal_9</code><span class="sig-paren">(</span><em>argument</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.emotion_to_arousal_9" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argument</strong> – a number coding for an emotion</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">argument: the converted binary arousal value</td>
+</tr>
+</tbody>
+</table>
+<p>Converting a number describing an emotion into a binary value. For Swedish, Hebrew and non-extended English data
+According to ASC-Inclusion: Interactive Emotion Games for Social Inclusion of Children with Autism
+Spectrum Conditions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.emotion_to_numeric_19">
+<code class="descname">emotion_to_numeric_19</code><span class="sig-paren">(</span><em>argument</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.emotion_to_numeric_19" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argument</strong> – a string coding for an emotion</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">argument: the converted numerical value</td>
+</tr>
+</tbody>
+</table>
+<p>Converting a string describing an emotion into a numerical value. For English data since it is saved
+with more details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.emotion_to_numeric_9">
+<code class="descname">emotion_to_numeric_9</code><span class="sig-paren">(</span><em>argument</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.emotion_to_numeric_9" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argument</strong> – a string coding for an emotion</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">argument: the converted numerical value</td>
+</tr>
+</tbody>
+</table>
+<p>Converting a string describing an emotion into a numerical value. For Swedish &amp; Hebrew data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.emotion_to_valence_9">
+<code class="descname">emotion_to_valence_9</code><span class="sig-paren">(</span><em>argument</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.emotion_to_valence_9" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argument</strong> – a numeric value coding for an emotion</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">argument: the converted binary valence value</td>
+</tr>
+</tbody>
+</table>
+<p>Converting a number describing an emotion into a binary value. For Swedish &amp; Hebrew  and not extended
+English data. According to ASC-Inclusion: Interactive Emotion Games for Social Inclusion of Children
+with Autism Spectrum Conditions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.get_asc">
+<code class="descname">get_asc</code><span class="sig-paren">(</span><em>target='asc'</em>, <em>type='egemaps'</em>, <em>language='eh'</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.get_asc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> – The target class (asc, emotion, gen, aro, val)</li>
+<li><strong>type</strong> – Feature set type (egemaps, compare, lldegemaps)</li>
+<li><strong>language</strong> – indicating the languages used for training (eh, sh, se)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">train_data, test_data: dicts containing the data</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading the ASC datasets for two languages and normalize and upsample them for ASC as train sets.
+Load and normalize the other culture dataset as test set</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.get_fold">
+<code class="descname">get_fold</code><span class="sig-paren">(</span><em>fold_num</em>, <em>target='asc'</em>, <em>type='egemaps'</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.get_fold" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fold_num</strong> – Number of the requested fold</li>
+<li><strong>target</strong> – The target class (asc, emotion, gen, aro, val)</li>
+<li><strong>type</strong> – Feature set type (egemaps, compare, lldegemaps)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">two dicts containing training and eval data</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Get a certain data fold of asc data of the conjoint English, Hebrew and Swedish Dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.get_fold_asc_eh">
+<code class="descname">get_fold_asc_eh</code><span class="sig-paren">(</span><em>fold_num</em>, <em>target='asc'</em>, <em>type='egemaps'</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.get_fold_asc_eh" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fold_num</strong> – Number of the requested fold</li>
+<li><strong>target</strong> – The target class since folds are slightly different.</li>
+<li><strong>type</strong> – Feature type to be loaded (egemaps, compare, lldegemaps)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">two dicts containing training and eval data</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Get a certain data fold of asc data of the conjoint English and Hebrew Dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.load_asc_data_one_language">
+<code class="descname">load_asc_data_one_language</code><span class="sig-paren">(</span><em>path=''</em>, <em>inputtype='functional'</em>, <em>target='emotion'</em>, <em>extended_emotion=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.load_asc_data_one_language" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> – path to the data (within the language folder)</li>
+<li><strong>inputtype</strong> – specify the inputtype (functional, lld)</li>
+<li><strong>target</strong> – Specify the target (emotion, arousal, valence, asc, gender)</li>
+<li><strong>extended_emotion</strong> – Bool English emotion annotations additionals will be loaded.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">data: dict containing a list of data, target, and ID, and length for lld data</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading ASC-Data for one Language with specified inputtype and target. Emotional target data
+will be returned as a one hot vector.
+For English data only basic emotion annotations will be loaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.load_one_functional">
+<code class="descname">load_one_functional</code><span class="sig-paren">(</span><em>filename=''</em>, <em>eng_data=False</em>, <em>extended_emotion=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.load_one_functional" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – Filename of the .csv functional</li>
+<li><strong>eng_data</strong> – Bool indicating if we deal with English data (richer annotation)</li>
+<li><strong>extended_emotion</strong> – Bool only applicable for Eng data - Loads additional info if True. Standard False.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">one_functional: a dict with data from one functional (id, age, asc, emotion, emotion_one_hot)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading one functional and the annotations from a csv file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.load_one_lld">
+<code class="descname">load_one_lld</code><span class="sig-paren">(</span><em>filename=''</em>, <em>eng_data=False</em>, <em>extended_emotion=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.load_one_lld" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – Filename of the .csv</li>
+<li><strong>eng_data</strong> – Bool indicating if we deal with English data (richer annotation)</li>
+<li><strong>extended_emotion</strong> – Bool only applicable for eng data - loads additional info if True - Standard False</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">one_functional: a dict with data from one datapoint</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading one lld set and the annotations from a csv file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.normalize">
+<code class="descname">normalize</code><span class="sig-paren">(</span><em>train_data</em>, <em>eval_data=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>train_data</strong> – training data dict</li>
+<li><strong>eval_data</strong> – eval data dict</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">train_data, eval_data with a normalized data</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Normalizing the given data to zero mean and one standard deviation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.shorten_lld">
+<code class="descname">shorten_lld</code><span class="sig-paren">(</span><em>train_data</em>, <em>maxlen=400</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.shorten_lld" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>train_data</strong> – train_data as it was loaded - before upsampling or normalization</li>
+<li><strong>maxlen</strong> – the max length of the requested output</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">train_data: train_data with splitted llds</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Splitting llds that are too long into multiple samples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.asc_loader.upsample">
+<code class="descname">upsample</code><span class="sig-paren">(</span><em>train_data</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.asc_loader.upsample" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>train_data</strong> – The data to be upsamled to equal classes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">train_data: the same data, just upsampled</td>
+</tr>
+</tbody>
+</table>
+<p>Upsampling routine for a dataset. Samples from the smaller group are selected and
+upsampled randomly.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="deenigma-loader">
+<h4>DEENIGMA Loader<a class="headerlink" href="#deenigma-loader" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma">
+<em class="property">class </em><code class="descclassname">Data_Preparation.Data_Loader.</code><code class="descname">annotation_loader_deenigma</code><span class="sig-paren">(</span><em>root_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is intended to load deenigma data from files, applies data pre processing and returns datafolds.</p>
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>root_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>root_path</strong> – Rootpath specified for this session.</td>
+</tr>
+</tbody>
+</table>
+<p>Initializing the data loader.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.get_fold">
+<code class="descname">get_fold</code><span class="sig-paren">(</span><em>foldnum=0</em>, <em>target=None</em>, <em>type='egemaps'</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.get_fold" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>foldnum</strong> – foldnumber 0-3</li>
+<li><strong>target</strong> – Specifying the target to load (val, aro, emo)</li>
+<li><strong>type</strong> – specifying the type of input data (egemaps, lldegemaps)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">trainData, valData: two dicts containing the train and eval data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading a preprocessed DE-ENIGMA datafold into memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.get_loso">
+<code class="descname">get_loso</code><span class="sig-paren">(</span><em>childnum=0</em>, <em>target=None</em>, <em>type='egemaps'</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.get_loso" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>childnum</strong> – A number to indicate the child to use as evaluation data</li>
+<li><strong>target</strong> – Specifying the target (aro, val, emo)</li>
+<li><strong>type</strong> – The feature type to use (egemaps, lldegemaps)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">trainData, valData: Two dicts containing the annotations.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading a preprocessed DE-ENIGMA LOSO fold into memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.load_functionals">
+<code class="descname">load_functionals</code><span class="sig-paren">(</span><em>apath=None</em>, <em>targetpath=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.load_functionals" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>apath</strong> – Path to the functional folder</li>
+<li><strong>targetpath</strong> – Path to the annotations</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Load functionals and single targets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.load_llds">
+<code class="descname">load_llds</code><span class="sig-paren">(</span><em>path='/data/elli/data/deenigma/bestlld'</em>, <em>lld=True</em>, <em>single_target=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.load_llds" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> – Path where the sequences are saved</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Load the lld features from pickle files and add to self.features.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.load_new_snippets">
+<code class="descname">load_new_snippets</code><span class="sig-paren">(</span><em>valenceArousalAnnotationCsvsWildcard</em>, <em>diarizationAnnotationCsvsWildcard</em>, <em>audioFeatureCsvsWildcard</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.load_new_snippets" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">valenceArousalAnnotationCsvsWildcard: Path/ Wildcard to the annotations.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param:</th><td class="field-body">diarizationAnnotationsCsvsWildcard: Path/ Wildcard to the diarization annotations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">audioFeatureCsvsWildcard: Path/Wildcard to the extracted Audio features.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ChildFeatures</td>
+</tr>
+</tbody>
+</table>
+<p>Loading snippets that are located on server and incorporate diarization - only use if extracted
+sequences are not available. Check this code to include annotation shifting and cut off length.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.normalize">
+<code class="descname">normalize</code><span class="sig-paren">(</span><em>trainData</em>, <em>valData</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>trainData</strong> – training dataset</li>
+<li><strong>valData</strong> – validation dataset</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">trainData, valData: two dicts, normalized</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Normalize a lld dataset to zero mean and one standard deviation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.normalize_func">
+<code class="descname">normalize_func</code><span class="sig-paren">(</span><em>trainData</em>, <em>valData</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.normalize_func" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>trainData</strong> – training dataset</li>
+<li><strong>valData</strong> – validation dataset</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">trainData, valData: two dicts, normalized</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Normalize a dataset of functionals to zero mean and one standard deviation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Loader.annotation_loader_deenigma.shorten_lld">
+<code class="descname">shorten_lld</code><span class="sig-paren">(</span><em>train_data</em>, <em>maxlen=400</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Loader.annotation_loader_deenigma.shorten_lld" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>train_data</strong> – train_data as it was loaded - before upsampling or normalization</li>
+<li><strong>maxlen</strong> – the max length of the requested output</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">train_data: train_data with splitted llds</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Splitting functionals that are longer than specified into multiple samples</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="data-iterators">
+<h3>Data Iterators<a class="headerlink" href="#data-iterators" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="data-iterator">
+<h4>Data Iterator<a class="headerlink" href="#data-iterator" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Data_Preparation.Data_Iterator.data_iterator">
+<em class="property">class </em><code class="descclassname">Data_Preparation.Data_Iterator.</code><code class="descname">data_iterator</code><a class="headerlink" href="#Data_Preparation.Data_Iterator.data_iterator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class creates an iterator from the data given or returns an iterator specified for a certain dataset.</p>
+<dl class="method">
+<dt id="Data_Preparation.Data_Iterator.data_iterator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Iterator.data_iterator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializing the data iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Iterator.data_iterator.iter_data_batch">
+<code class="descname">iter_data_batch</code><span class="sig-paren">(</span><em>data</em>, <em>target</em>, <em>n_batches</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Iterator.data_iterator.iter_data_batch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list training data</li>
+<li><strong>target</strong> – list target data</li>
+<li><strong>n_batches</strong> – int number of samples per batch</li>
+<li><strong>kwargs</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An iterator which always yields a batch of data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Iterating over the given data &amp; target in NumBatches. This iterator returns batches of the fed in data but in a
+list format so it is usable for applications programmed for the epoch iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Iterator.data_iterator.iter_data_epoch">
+<code class="descname">iter_data_epoch</code><span class="sig-paren">(</span><em>data</em>, <em>target</em>, <em>n_batches</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Iterator.data_iterator.iter_data_epoch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list input data</li>
+<li><strong>target</strong> – list target data</li>
+<li><strong>n_batches</strong> – Int given the number of samples per batch</li>
+<li><strong>kwargs</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An iterator which always yields a full epoch of data in batches</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Iterating over the given data &amp; target in NumBatches. This iterator returns all the feed in data at once but
+split in a list of batches.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="sequence-iterator">
+<h4>Sequence Iterator<a class="headerlink" href="#sequence-iterator" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Data_Preparation.Data_Iterator.sequence_iterator">
+<em class="property">class </em><code class="descclassname">Data_Preparation.Data_Iterator.</code><code class="descname">sequence_iterator</code><a class="headerlink" href="#Data_Preparation.Data_Iterator.sequence_iterator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class creates an iterator from the data given or returns an iterator specified for a certain dataset.
+Adapted for time continous data.</p>
+<dl class="method">
+<dt id="Data_Preparation.Data_Iterator.sequence_iterator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Iterator.sequence_iterator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializing the data iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Iterator.sequence_iterator.iter_data_batch">
+<code class="descname">iter_data_batch</code><span class="sig-paren">(</span><em>data</em>, <em>target</em>, <em>n_batches</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Iterator.sequence_iterator.iter_data_batch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list training data</li>
+<li><strong>target</strong> – list target data</li>
+<li><strong>n_batches</strong> – int number of samples per batch</li>
+<li><strong>kwargs</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An iterator which always yields a batch of data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Iterating over the given data &amp; target in NumBatches. This iterator returns batches of the fed in data but in a
+list format so it is usable for applications programmed for the epoch iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Data_Preparation.Data_Iterator.sequence_iterator.iter_data_epoch">
+<code class="descname">iter_data_epoch</code><span class="sig-paren">(</span><em>data</em>, <em>target</em>, <em>n_batches</em>, <em>length</em>, <em>long=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Data_Preparation.Data_Iterator.sequence_iterator.iter_data_epoch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list input data</li>
+<li><strong>target</strong> – list target data</li>
+<li><strong>n_batches</strong> – Int given the number of samples per batch</li>
+<li><strong>length</strong> – list of length of data</li>
+<li><strong>long</strong> – Bool inidicating if a long version of the data shall be yielded</li>
+<li><strong>kwargs</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An iterator which always yields a full epoch of data in batches</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Iterating over the given data &amp; target in NumBatches. This iterator returns all the feed in data at once but
+split in a list of batches. Padding data to the max length of the batch with zeros and returning
+the length list of the batch as well.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="progressive-neural-networks">
+<h2>Progressive Neural Networks<a class="headerlink" href="#progressive-neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>Two types of Progressive Neural Networks were created for this project. One is a simple Progressive Neural Network (P-NN) the other
+a Recurrent Progressive Neural Network (R-PNN). Those are called in the Evaluator classes or can be used
+as they are for more customized experiments.</p>
+<div class="section" id="simple-progressive-neural-network">
+<h3>Simple Progressive Neural Network<a class="headerlink" href="#simple-progressive-neural-network" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="prog-net">
+<h4>Prog Net<a class="headerlink" href="#prog-net" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Prog_net.progressivenet.ProgressiveNeuralNetwork">
+<em class="property">class </em><code class="descclassname">Prog_net.progressivenet.</code><code class="descname">ProgressiveNeuralNetwork</code><span class="sig-paren">(</span><em>inputSize: int</em>, <em>numLayers: int</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.ProgressiveNeuralNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Progressive Neural Network with an extensible number of columns.</p>
+<dl class="method">
+<dt id="Prog_net.progressivenet.ProgressiveNeuralNetwork.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>inputSize: int</em>, <em>numLayers: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.progressivenet.ProgressiveNeuralNetwork.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inputSize</strong> – setting the size of the input.</li>
+<li><strong>numLayers</strong> – Number of layers of the prog net.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializing the network with some basic parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.ProgressiveNeuralNetwork.addColumn">
+<code class="descname">addColumn</code><span class="sig-paren">(</span><em>topology: list</em>, <em>activations: list</em>, <em>previousColumns: list</em>, <em>logdir: str</em>, <em>regression: bool</em><span class="sig-paren">)</span> &#x2192; Prog_net.progressivenet.Column<a class="headerlink" href="#Prog_net.progressivenet.ProgressiveNeuralNetwork.addColumn" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>topology</strong> – list the numbers of units per layer</li>
+<li><strong>activations</strong> – list the activations functions of those layers</li>
+<li><strong>previousColumns</strong> – list a list of the previous columns.</li>
+<li><strong>logdir</strong> – string directory to save data about this column</li>
+<li><strong>regression</strong> – boolean indicating if this is a regression column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">e: the just created Column.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adding a column to the progressive net.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.ProgressiveNeuralNetwork.limit_mem">
+<code class="descname">limit_mem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.ProgressiveNeuralNetwork.limit_mem" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>A function to close the session and release memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.ProgressiveNeuralNetwork.loadFromFile">
+<code class="descname">loadFromFile</code><span class="sig-paren">(</span><em>filePath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.progressivenet.ProgressiveNeuralNetwork.loadFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> – path</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Loading an existing Prog net from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.ProgressiveNeuralNetwork.writeToFile">
+<code class="descname">writeToFile</code><span class="sig-paren">(</span><em>filePath: str</em>, <em>step: int</em>, <em>meta=True</em>, <em>trainable=False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.progressivenet.ProgressiveNeuralNetwork.writeToFile" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filePath</strong> – str path to save it to</li>
+<li><strong>step</strong> – int current global step</li>
+<li><strong>meta</strong> – bool indicating if meta information (the graph) should be saved or only params</li>
+<li><strong>trainable</strong> – save trainable variables only</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Writing the current Prog net to a file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="column">
+<h4>Column<a class="headerlink" href="#column" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Prog_net.progressivenet.Column">
+<em class="property">class </em><code class="descclassname">Prog_net.progressivenet.</code><code class="descname">Column</code><span class="sig-paren">(</span><em>topology: list</em>, <em>activations: list</em>, <em>session</em>, <em>previousColumns: list</em>, <em>colIndex: int</em>, <em>dtype=tf.float64</em>, <em>logdir=''</em>, <em>regression=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.Column" title="Permalink to this definition">¶</a></dt>
+<dd><p>An extensible network column for use in transfer learning with a Progressive
+Neural Network.</p>
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>topology: list</em>, <em>activations: list</em>, <em>session</em>, <em>previousColumns: list</em>, <em>colIndex: int</em>, <em>dtype=tf.float64</em>, <em>logdir=''</em>, <em>regression=False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.progressivenet.Column.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topology</strong> – list containing the number of units per layer.</li>
+<li><strong>activations</strong> – list containing the activation functions of those layers.</li>
+<li><strong>session</strong> – tensorflow session to connect with this column</li>
+<li><strong>previousColumns</strong> – list containing the previous columns of the prog net.</li>
+<li><strong>colIndex</strong> – int index of the current column - used for naming</li>
+<li><strong>dtype</strong> – Standard tf datatype</li>
+<li><strong>logdir</strong> – directory to write logs and saved files to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Creating one column for a Progressive neural net.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.create_optimizer">
+<code class="descname">create_optimizer</code><span class="sig-paren">(</span><em>dataset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.Column.create_optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataset</strong> – string indicating if it is the deenigma dataset and therefore needs a regressor</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Create an Adam optimizer for the column invoking this method - taken outside the init functions
+since not for all columns optimizers are needed at all times. And otherwise it will mess around with some
+parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.create_optimizer_finetune">
+<code class="descname">create_optimizer_finetune</code><span class="sig-paren">(</span><em>lastlayeronly=True</em>, <em>graph=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.Column.create_optimizer_finetune" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lastlayeronly</strong> – Bool if true only the last parameters are updated</li>
+<li><strong>graph</strong> – tensorflow graph currently dealt with</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Create an Adam finetuning optimizer for the column invoking this method - taken outside the init functions</dt>
+<dd>since not for all columns optimizers are needed at all times. And otherwise it will mess around with some
+parameters.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.create_summary_from_array">
+<code class="descname">create_summary_from_array</code><span class="sig-paren">(</span><em>data</em>, <em>steps</em>, <em>tag=''</em>, <em>test=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.Column.create_summary_from_array" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list the array to create the summary from</li>
+<li><strong>steps</strong> – list with the time steps of the datapoints</li>
+<li><strong>tag</strong> – string name of the datapoint</li>
+<li><strong>test</strong> – bool indicating wether it is test or train data for the directory</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a tensorflow summary from an array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>data</em>, <em>test=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.Column.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – dict containing the inputs</li>
+<li><strong>test</strong> – bool indicating evaluation data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">accuracy: The overall accuracy of this prediction</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Run a prediction on the input data. Returns only the accuracy.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.get_confusion_matrix">
+<code class="descname">get_confusion_matrix</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.progressivenet.Column.get_confusion_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> – data as returned from the iterator</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">confusion_matrix - the confusion matrix for the full epoch</td>
+</tr>
+</tbody>
+</table>
+<p>Get the confusion matrix for ASC Data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.name">
+<code class="descname">name</code><span class="sig-paren">(</span><em>name: str</em>, <em>index1=None</em>, <em>index2=None</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#Prog_net.progressivenet.Column.name" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> – str name of the current variable to name.</li>
+<li><strong>index1</strong> – int first index</li>
+<li><strong>index2</strong> – int second index - if it applies</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">str a string with the correct name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Helper function creating a name for the current variable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inputs</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#Prog_net.progressivenet.Column.predict" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputs</strong> – list containing the inputs</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">predictions: list with the predictions</td>
+</tr>
+</tbody>
+</table>
+<p>Run a prediction on the input data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.train">
+<code class="descname">train</code><span class="sig-paren">(</span><em>data</em>, <em>learning_rate: float</em>, <em>dropout_keep_prob=1.0</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.progressivenet.Column.train" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list of batches to train on containing input, target</li>
+<li><strong>learning_rate</strong> – float learningrate</li>
+<li><strong>dropout_keep_prob</strong> – float between 0-1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Invokes the current training method for that column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.progressivenet.Column.write_summary">
+<code class="descname">write_summary</code><span class="sig-paren">(</span><em>data</em>, <em>learning_rate</em>, <em>dropout_keep_prob</em>, <em>step=0</em>, <em>test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.progressivenet.Column.write_summary" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> – Input data</li>
+<li><strong>learning_rate</strong> – float learning rate</li>
+<li><strong>dropout_keep_prob</strong> – float dropout keep prob</li>
+<li><strong>step</strong> – current epoch of the network</li>
+<li><strong>test</strong> – Bool triggers different data handling and save directory if it is evaluation data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Trigger the summary writer to write previously constructed summaries</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="recurrent-progressive-net">
+<h3>Recurrent Progressive Net<a class="headerlink" href="#recurrent-progressive-net" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Prog Net<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Prog_net.rnnprogressivenet.RNNProgressiveNet">
+<em class="property">class </em><code class="descclassname">Prog_net.rnnprogressivenet.</code><code class="descname">RNNProgressiveNet</code><span class="sig-paren">(</span><em>inputSize: int</em>, <em>numLayers: int</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.RNNProgressiveNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Progressive Neural Network with an extensible number of columns.</p>
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.RNNProgressiveNet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>inputSize: int</em>, <em>numLayers: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.rnnprogressivenet.RNNProgressiveNet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inputSize</strong> – setting the size of the input.</li>
+<li><strong>numLayers</strong> – Number of layers of the prog net.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializing the network with some basic parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.RNNProgressiveNet.addColumn">
+<code class="descname">addColumn</code><span class="sig-paren">(</span><em>topology: list</em>, <em>activations: list</em>, <em>celltype</em>, <em>previousColumns: list</em>, <em>logdir: str</em>, <em>batchnum: int</em>, <em>regression=False</em><span class="sig-paren">)</span> &#x2192; Prog_net.progressivenet.Column<a class="headerlink" href="#Prog_net.rnnprogressivenet.RNNProgressiveNet.addColumn" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>topology</strong> – list the numbers of units per layer</li>
+<li><strong>activations</strong> – list the activations functions of those layers</li>
+<li><strong>previousColumns</strong> – list a list of the previous columns.</li>
+<li><strong>logdir</strong> – path to the logging directory</li>
+<li><strong>batchnum</strong> – batchnumber for the column - needed for initialization</li>
+<li><strong>regression</strong> – bool indicating if it is a regression or classification task</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">e: the just created Column.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adding a column to the progressive net.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.RNNProgressiveNet.limit_mem">
+<code class="descname">limit_mem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.RNNProgressiveNet.limit_mem" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>A function to close the session and release memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.RNNProgressiveNet.loadFromFile">
+<code class="descname">loadFromFile</code><span class="sig-paren">(</span><em>filePath: str</em>, <em>finetune=True</em>, <em>file=None</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.rnnprogressivenet.RNNProgressiveNet.loadFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filePath</strong> – path</li>
+<li><strong>file</strong> – NN reload file (if there’s a specific instance to load - not the latest)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Loading an existing Prog net from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.RNNProgressiveNet.writeToFile">
+<code class="descname">writeToFile</code><span class="sig-paren">(</span><em>filePath: str</em>, <em>step: int</em>, <em>meta=True</em>, <em>trainable=False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.rnnprogressivenet.RNNProgressiveNet.writeToFile" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filePath</strong> – str path to save it to</li>
+<li><strong>step</strong> – int current global step</li>
+<li><strong>meta</strong> – bool indicating if meta information (the graph) should be saved or only params</li>
+<li><strong>trainable</strong> – save trainable variables only</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Writing the current Prog net to a file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h4>Column<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column">
+<em class="property">class </em><code class="descclassname">Prog_net.rnnprogressivenet.</code><code class="descname">Rnn_Column</code><span class="sig-paren">(</span><em>topology: list</em>, <em>activations: list</em>, <em>celltype</em>, <em>session</em>, <em>previousColumns: list</em>, <em>colIndex: int</em>, <em>logdir: str</em>, <em>batchsize: int</em>, <em>dtype=tf.float64</em>, <em>regression=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column" title="Permalink to this definition">¶</a></dt>
+<dd><p>An extensible network column for use in transfer learning with a Progressive
+Neural Network using recurrent structures.</p>
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>topology: list</em>, <em>activations: list</em>, <em>celltype</em>, <em>session</em>, <em>previousColumns: list</em>, <em>colIndex: int</em>, <em>logdir: str</em>, <em>batchsize: int</em>, <em>dtype=tf.float64</em>, <em>regression=False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topology</strong> – list containing the number of units per layer.</li>
+<li><strong>activations</strong> – list containing the activation functions of those layers.</li>
+<li><strong>celltype</strong> – Specifying the type of RNN cell used (GRU, BasicLSTM, LSTM,…)</li>
+<li><strong>session</strong> – tensorflow session to connect with this column</li>
+<li><strong>previousColumns</strong> – list containing the previous columns of the prog net.</li>
+<li><strong>colIndex</strong> – int index of the current column - used for naming</li>
+<li><strong>logdir</strong> – str directory used for logging</li>
+<li><strong>batchsize</strong> – int batchsize for first initialization - can be changed later on</li>
+<li><strong>dtype</strong> – tf datatype to use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Creating one column for a recurrent progressive neural net.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.create_optimizer">
+<code class="descname">create_optimizer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.create_optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Create an Adam optimizer for the column invoking this method - taken outside the init functions
+since not for all columns optimizers are needed at all times. And otherwise it will mess around with some
+parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> – dict containing the inputs</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">accuracy: The overall accuracy of this prediction (all, last and mean)</td>
+</tr>
+</tbody>
+</table>
+<p>Run a prediction on the input data. Returns only the accuracy (ASC Inclusion only).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.get_confusion_matrix">
+<code class="descname">get_confusion_matrix</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.get_confusion_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> – data as returned from the iterator</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">confusion_matrix - the confusion matrix for the full epoch</td>
+</tr>
+</tbody>
+</table>
+<p>Get the confusion matrix for the ASC Inclusion dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.get_probabilities">
+<code class="descname">get_probabilities</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.get_probabilities" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> – list containing the inputs</li>
+<li><strong>lengths</strong> – list containing the lengths of the samples</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">probabilities: list with the probabilities</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Run a prediction on the input data and return the logits (ASC-Inclusion only).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.predict" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputs</strong> – list containing the inputs, length and target</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">predictions: list with the predictions</td>
+</tr>
+</tbody>
+</table>
+<p>Run a prediction on the input data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.predict_last">
+<code class="descname">predict_last</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.predict_last" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> – list containing the inputs</li>
+<li><strong>lengths</strong> – list containing the lengths of the samples</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">predictions: list with the predictions</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Run a prediction on the input data for ASC-Data last output.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.train">
+<code class="descname">train</code><span class="sig-paren">(</span><em>data</em>, <em>learning_rate: float</em>, <em>dropout_keep_prob=1.0</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.train" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> – list of batches to train on containing input, target</li>
+<li><strong>learning_rate</strong> – float</li>
+<li><strong>dropout_keep_prob</strong> – float between 0-1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Invokes the current training method for that column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Prog_net.rnnprogressivenet.Rnn_Column.write_summary">
+<code class="descname">write_summary</code><span class="sig-paren">(</span><em>data</em>, <em>step</em>, <em>learning_rate=0</em>, <em>dropout_keep_prob=1</em>, <em>test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Prog_net.rnnprogressivenet.Rnn_Column.write_summary" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> – Input data</li>
+<li><strong>learning_rate</strong> – float learning rate</li>
+<li><strong>dropout_keep_prob</strong> – float dropout keep prob</li>
+<li><strong>step</strong> – current epoch of the network</li>
+<li><strong>test</strong> – Bool triggers different data handling and save directory if it is evaluation data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Trigger the summary writer to write previously constructed summaries</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="evaluators">
+<h2>Evaluators<a class="headerlink" href="#evaluators" title="Permalink to this headline">¶</a></h2>
+<p>Different Evaluators are constructed to ease hyperparameter tuning and evaluation of progressive neural networks.
+For the experiments with simple neural networks three different evaluators for simple nets, finetuning and
+progressive networks were created. For recurrent progressive neural networks only one evaluator can be used for
+simple network evaluation and the progressive network evaluation.</p>
+<div class="section" id="simple-network-evaluator">
+<h3>Simple Network Evaluator<a class="headerlink" href="#simple-network-evaluator" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator">
+<em class="property">class </em><code class="descclassname">Evaluators.SimpleNetEvaluator.</code><code class="descname">simpleEvaluator</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em>, <em>dataset</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluator for Simple nets.</p>
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em>, <em>dataset</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dataloader</strong> – a asc_loader object</li>
+<li><strong>dataiterator</strong> – a asc_iterator object</li>
+<li><strong>features</strong> – string specifying the feature set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the Evaluator</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.cccPccRmse">
+<code class="descname">cccPccRmse</code><span class="sig-paren">(</span><em>target: numpy.ndarray</em>, <em>predictions: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.cccPccRmse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> – Array Target data</li>
+<li><strong>y</strong> – Array predctions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">CCC, PCC, RMSE, SCC: float correlation coefficients</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Computes the correlation coefficients and error measures. Concordance Correlation Coefficient (CCC),
+Pearson Correlation Coefficient (PCC), Spearman Correlation Coefficient (SCC) and Root mean squared error (RMSE)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.create_roc_cross">
+<code class="descname">create_roc_cross</code><span class="sig-paren">(</span><em>logPath: str</em>, <em>rootname: str</em>, <em>savePath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.create_roc_cross" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>logPath</strong> – string path to the configuration file</li>
+<li><strong>rootname</strong> – string path to where the logs shall be saved</li>
+<li><strong>savePath</strong> – path to where the evaluation curves shall be saved</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a ROC evaluation curve for cross validation and cross culture evaluation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.create_roc_culture">
+<code class="descname">create_roc_culture</code><span class="sig-paren">(</span><em>logPath: str</em>, <em>rootname: str</em>, <em>savePath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.create_roc_culture" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>logPath</strong> – path to the specification file</li>
+<li><strong>rootname</strong> – path to where the logs shall be saved</li>
+<li><strong>savePath</strong> – path to where the evaluation curves shall be saved</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a ROC evaluation graph for cross culture evaluation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.cross_validate_emotion">
+<code class="descname">cross_validate_emotion</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs: dict</em>, <em>progNet</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.cross_validate_emotion" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>trainColumn</strong> – Column object to train</li>
+<li><strong>specs</strong> – dictionary containing {language, dropout, learningRate, numSteps}</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">evalLog: dictionary containing lists {tpLog, tnLog, fpLog, fnLog}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Perform a 7 fold cross culture evaluation and save the confusion matrix. (ASC- Inclusion)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.do_cross_culture_evaluation">
+<code class="descname">do_cross_culture_evaluation</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.do_cross_culture_evaluation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>trainColumn</strong> – Column object to train</li>
+<li><strong>specs</strong> – dictionary containing {language, dropout, learningRate, numSteps}</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">evalLog: dictionary containing lists {tpLog, tnLog, fpLog, fnLog}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Perform a cross culture evaluation. ASC Inclusion only.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.do_cross_validation">
+<code class="descname">do_cross_validation</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.do_cross_validation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>column</strong> – column object to train</li>
+<li><strong>specs</strong> – dictionary containing numSteps, dropout, learningrate</li>
+<li><strong>logStep</strong> – integer, number indicating when to create a log</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: dictionary containing the accuracies, tp and fp, tn and fn or RMSE logs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Do a seven or five fold cross-validation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.evaluate_cross_culture">
+<code class="descname">evaluate_cross_culture</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configuration: dict</em>, <em>numEval=10</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.evaluate_cross_culture" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – path where the whole thing will be saved</li>
+<li><strong>configuration</strong> – dict containing{topology, learningRate, numStep, dropout, target}</li>
+<li><strong>numEval</strong> – number of evaluations to do</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Doing a cross culture evaluation for the given hyperparameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.evaluate_emotion">
+<code class="descname">evaluate_emotion</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numTrial=5</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.evaluate_emotion" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path to where the Net shall be saved</li>
+<li><strong>configurations</strong> – List of configurations(dict) to test {topology, learningrate, dropout, target}</li>
+<li><strong>numTrial</strong> – number of trials to perform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: list of results and configurations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Evaluation for Emotion with given sets of Hyperparameters. ASC-Inclusion only.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.evaluate_hyperparameters">
+<code class="descname">evaluate_hyperparameters</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numTrial=5</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.evaluate_hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path to where the Net shall be saved</li>
+<li><strong>configurations</strong> – List of configurations(dict) to test {topology, learningrate, dropout, target}</li>
+<li><strong>numTrial</strong> – number of trials to perform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: list of results and configurations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Evaluate the given hyperparameters with five or seven cross validations. Depending on the data set used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.read_simple_specs_from_file">
+<code class="descname">read_simple_specs_from_file</code><span class="sig-paren">(</span><em>logPath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.read_simple_specs_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logPath</strong> – path to the specification file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">configurations:  list of dictionaries containing specifications</td>
+</tr>
+</tbody>
+</table>
+<p>Reads Specifications from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SimpleNetEvaluator.simpleEvaluator.test_hyperparameters">
+<code class="descname">test_hyperparameters</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numSteps: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SimpleNetEvaluator.simpleEvaluator.test_hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – path to where the tested architectures shall be saved</li>
+<li><strong>configurations</strong> – list of configurations to test [[topologies], [learning rates], [dropouts], [target]]</li>
+<li><strong>numSteps</strong> – Number of steps to test</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Performs a grid search on a given set of hyperparameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="fine-tuning-evaluator">
+<h3>Fine Tuning Evaluator<a class="headerlink" href="#fine-tuning-evaluator" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="Evaluators.FineTuneEvaluator.fineTuningEvaluator">
+<em class="property">class </em><code class="descclassname">Evaluators.FineTuneEvaluator.</code><code class="descname">fineTuningEvaluator</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.FineTuneEvaluator.fineTuningEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for Evaluation of Fine Tuning.</p>
+<dl class="method">
+<dt id="Evaluators.FineTuneEvaluator.fineTuningEvaluator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.FineTuneEvaluator.fineTuningEvaluator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dataloader</strong> – a asc_loader object</li>
+<li><strong>dataiterator</strong> – a asc_iterator object</li>
+<li><strong>features</strong> – string specifying the feature set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the Evaluator</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.FineTuneEvaluator.fineTuningEvaluator.do_cross_validation">
+<code class="descname">do_cross_validation</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.FineTuneEvaluator.fineTuningEvaluator.do_cross_validation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>column</strong> – column object to train</li>
+<li><strong>specs</strong> – dictionary containing numSteps, dropout, learningrate, topology 1,
+pretrain path, rootname, mode</li>
+<li><strong>logStep</strong> – integer, number indicating when to create a log</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: dictionary containing the accuracies, tp and fp, tn and fn logs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Do a 7-fold cross-validation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.FineTuneEvaluator.fineTuningEvaluator.evaluate_hyperparameters">
+<code class="descname">evaluate_hyperparameters</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numTrial=5</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.FineTuneEvaluator.fineTuningEvaluator.evaluate_hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path to where the Net shall be saved</li>
+<li><strong>configurations</strong> – List of configurations(dict) to test {topology, learningrate, dropout, target}</li>
+<li><strong>numTrial</strong> – number of trials to perform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>results: list of results and configurations</p>
+<p>Evaluate the given hyperparameters doing multiple crossvalidations. Results are as well saved as pickel.</p>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.FineTuneEvaluator.fineTuningEvaluator.read_tuning_specs_from_file">
+<code class="descname">read_tuning_specs_from_file</code><span class="sig-paren">(</span><em>logPath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.FineTuneEvaluator.fineTuningEvaluator.read_tuning_specs_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logPath</strong> – str path to the specification file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">configurations: list of dicts with configurations</td>
+</tr>
+</tbody>
+</table>
+<p>Read the fine tuning specs from a specification file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="second-column-evaluator">
+<h3>Second Column Evaluator<a class="headerlink" href="#second-column-evaluator" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="Evaluators.SecondColumnEvaluator.SecondColumnEvaluator">
+<em class="property">class </em><code class="descclassname">Evaluators.SecondColumnEvaluator.</code><code class="descname">SecondColumnEvaluator</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.SecondColumnEvaluator.SecondColumnEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for Evaluation of Fine Tuning.</p>
+<dl class="method">
+<dt id="Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dataloader</strong> – a asc_loader object</li>
+<li><strong>dataiterator</strong> – a asc_iterator object</li>
+<li><strong>features</strong> – string specifying the feature set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the Evaluator</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.do_cross_validation">
+<code class="descname">do_cross_validation</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.do_cross_validation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>column</strong> – column object to train</li>
+<li><strong>specs</strong> – dictionary containing numSteps, dropout, learningrate, topology 1,
+pretrain path, rootname, mode</li>
+<li><strong>logStep</strong> – integer, number indicating when to create a log</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: dictionary containing the accuracies, tp and fp, tn and fn logs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Do a 7-fold cross-validation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.evaluate_hyperparameters">
+<code class="descname">evaluate_hyperparameters</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numTrial=5</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.evaluate_hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path to where the Net shall be saved</li>
+<li><strong>configurations</strong> – List of configurations(dict) to test {topology, learningrate, dropout, target}</li>
+<li><strong>numTrial</strong> – number of trials to perform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: list of results and configurations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Evaluate the given hyperparameters doing multiple crossvalidations. Results are as well saved as pickel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.read_tuning_specs_from_file">
+<code class="descname">read_tuning_specs_from_file</code><span class="sig-paren">(</span><em>logPath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.SecondColumnEvaluator.SecondColumnEvaluator.read_tuning_specs_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logPath</strong> – str path to the specification file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">configurations: list of dicts with configurations<p>Read the second column tuning specs from a specification file</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="recurrent-net-evaluator">
+<h3>Recurrent Net Evaluator<a class="headerlink" href="#recurrent-net-evaluator" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator">
+<em class="property">class </em><code class="descclassname">Evaluators.ProgNetEvaluator.</code><code class="descname">RNNEvaluator</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em>, <em>dataset=''</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluator for Recurrent Neural Networks.</p>
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>dataloader</em>, <em>dataiterator</em>, <em>features</em>, <em>dataset=''</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dataloader</strong> – a asc_loader object</li>
+<li><strong>dataiterator</strong> – a asc_iterator object</li>
+<li><strong>features</strong> – string specifying the feature set (lldcompare, lldegemaps)</li>
+<li><strong>dataset</strong> – specifying the dataset (deenigma or asc)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the Evaluator</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.cccPccRmse">
+<code class="descname">cccPccRmse</code><span class="sig-paren">(</span><em>target: numpy.ndarray</em>, <em>predictions: numpy.ndarray</em>, <em>length: list</em><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.cccPccRmse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> – Target data</li>
+<li><strong>y</strong> – predctions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">outdict: dict wiht CCC, PCC, RMSE, SCC (Concordance scores)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Computes the correlation coefficients and error measures. Concordance Correlation Coefficient (CCC),
+Pearson Correlation Coefficient (PCC), Spearman Correlation Coefficient (SCC) and Root mean squared error (RMSE)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.create_pretrained">
+<code class="descname">create_pretrained</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>config: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.create_pretrained" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path to where the Net shall be saved</li>
+<li><strong>configurations</strong> – List of configurations(dict) to test {topology, learningrate, dropout, target}</li>
+<li><strong>numTrial</strong> – number of trials to perform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: list of results and configurations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a Pretrained NN using all data as training data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.do_cross_validation">
+<code class="descname">do_cross_validation</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs</em>, <em>progNet</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.do_cross_validation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>column</strong> – column object to train</li>
+<li><strong>specs</strong> – dictionary containing numSteps, dropout, learningrate</li>
+<li><strong>logStep</strong> – integer, number indicating when to create a log</li>
+<li><strong>progNet</strong> – The progressive net, so we can save and load if necessary</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: dictionary containing the accuracies, tp and fp, tn and fn logs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Do a cross-validation. (5 Folds ASC, 4 Folds DE-ENIGMA)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.do_loso_validation">
+<code class="descname">do_loso_validation</code><span class="sig-paren">(</span><em>trainColumn</em>, <em>specs</em>, <em>progNet</em><span class="sig-paren">)</span><a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.do_loso_validation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>column</strong> – column object to train</li>
+<li><strong>specs</strong> – dictionary containing numSteps, dropout, learningrate</li>
+<li><strong>logStep</strong> – integer, number indicating when to create a log</li>
+<li><strong>progNet</strong> – The progressive net, so we can save and load if necessary</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: dictionary the scores</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Do a LOSO validation - only DE-ENIGMA.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.evaluate_crosstask_second_column">
+<code class="descname">evaluate_crosstask_second_column</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.evaluate_crosstask_second_column" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path where the net shall be saved.</li>
+<li><strong>configuarations</strong> – list of dicts containing all ‘normal’ specifications + first_topology and
+pretrained_path</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Evaluates a second column progressive network with a given set of hyperparameters and a specified pretrained
+net for cross task learning (same output type).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.evaluate_hyperparameters">
+<code class="descname">evaluate_hyperparameters</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numTrial=5</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.evaluate_hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path to where the Net shall be saved</li>
+<li><strong>configurations</strong> – List of configurations(dict) to test {topology, learningrate, dropout, target}</li>
+<li><strong>numTrial</strong> – number of trials to perform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">results: list of results and configurations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Evaluate the given hyperparameters with multiple cross validations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.evaluate_second_column">
+<code class="descname">evaluate_second_column</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.evaluate_second_column" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – Path where the net shall be saved.</li>
+<li><strong>configuarations</strong> – list of dicts containing all ‘normal’ specifications + first_topology and
+pretrained_path</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Evaluates a second column progressive network with a given set of hyperparameters and a specified pretrained
+net.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Evaluators.ProgNetEvaluator.RNNEvaluator.test_hyperparameters">
+<code class="descname">test_hyperparameters</code><span class="sig-paren">(</span><em>rootname: str</em>, <em>configurations: list</em>, <em>numSteps: int</em>, <em>reload=False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#Evaluators.ProgNetEvaluator.RNNEvaluator.test_hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rootname</strong> – path to where the tested architectures shall be saved</li>
+<li><strong>configurations</strong> – list of configurations to test [[topologies], [learning rates], [batchsize],
+[dropouts], [target]]</li>
+<li><strong>numSteps</strong> – Number of steps to test</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Test different Hyperparamter configurations.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../Documentation.html">P-RNNs for Emotion Recognition 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Elisabeth Wittmann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>
